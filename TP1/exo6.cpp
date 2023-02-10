@@ -2,17 +2,20 @@
 
 using namespace std;
 
-struct Noeud{
+struct Noeud
+{
     int donnee;
     Noeud* suivant;
 };
 
-struct Liste{
+struct Liste
+{
     Noeud* premier;
     // your code
 };
 
-struct DynaTableau{
+struct DynaTableau
+{
     int* donnees;
     // your code
 };
@@ -20,17 +23,25 @@ struct DynaTableau{
 
 void initialise(Liste* liste)
 {
-
+    liste->premier = nullptr;
 }
 
+// pour vérifier si la liste est vide. Retourne true si elle est vide, false sinon.
 bool est_vide(const Liste* liste)
 {
+    if (liste->premier == nullptr) 
+        return true;
+
     return false;
 }
 
 void ajoute(Liste* liste, int valeur)
 {
-
+    //Si la liste n'est pas vide
+    if(!est_vide(liste))
+    {
+        
+    }
 }
 
 void affiche(const Liste* liste)
@@ -131,7 +142,8 @@ int main()
         std::cout << "Oups y a une anguille dans mon tableau" << std::endl;
     }
 
-    for (int i=1; i<=7; i++) {
+    for (int i=1; i<=7; i++) 
+    {
         ajoute(&liste, i*7);
         ajoute(&tableau, i*5);
     }
