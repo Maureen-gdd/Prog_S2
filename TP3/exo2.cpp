@@ -5,6 +5,38 @@
 MainWindow* w = nullptr;
 using std::size_t;
 
+int binarySearch(Array& array, int toSearch, int start, int end, bool min)
+{
+	bool index = false;
+	int result;
+	while(start < end)
+	{
+		int mid = (start + end) / 2;
+
+		if(toSearch > array[mid])
+			start = mid + 1;
+		else if(toSearch < array[mid])
+			end = mid;
+		else
+		{
+			// On veut trouver l'indexMin
+			if(min)
+				end = mid;
+			// On veut trouver l'indexMax
+			else
+				start = mid + 1;
+
+			index = true;
+			result = mid;
+		}
+	}
+
+	if(index)
+		return result;
+	else
+		return -1;
+}
+
 /**
  * @brief define indexMin and indexMax as the first and the last index of toSearch
  * @param array array of int to process
@@ -14,8 +46,20 @@ using std::size_t;
  */
 void binarySearchAll(Array& array, int toSearch, int& indexMin, int& indexMax)
 {
+	bool min = true;
 	// do not use increments, use two different binary search loop
     indexMin = indexMax = -1;
+
+    //Avec la première boucle on trouve la première occurence de la valeur dans le tableau
+    indexMin = binarySearch(array, toSearch, 0, array.size(), min);
+
+    // Si elle existe, on continue. Sinon on s'arrête.
+    if(indexMin != -1)
+    {
+    	min = false;
+    	indexMax = binarySearch(array, toSearch, indexMin, array.size(), false);
+    }
+
 }
 
 int main(int argc, char *argv[])
