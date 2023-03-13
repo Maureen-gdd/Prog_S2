@@ -50,10 +50,9 @@ void binarySearchAll(Array& array, int toSearch, int& indexMin, int& indexMax)
 	// do not use increments, use two different binary search loop
     indexMin = indexMax = -1;
 
-    //Avec la première boucle on trouve la première occurence de la valeur dans le tableau
+    //Avec la première boucle on trouve la première occurence de la valeur dans le tableau si elle existe
     indexMin = binarySearch(array, toSearch, 0, array.size(), min);
 
-    // Si elle existe, on continue. Sinon on s'arrête.
     if(indexMin != -1)
     {
     	min = false;
