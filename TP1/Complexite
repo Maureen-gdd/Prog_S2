@@ -1,0 +1,5 @@
+// Algorithme 5
+5) Omax(n^2), Omin(n)
+6) Imax(min(n, m))
+7) Omin(1), Omax(log n)
+9) O(n logn)
