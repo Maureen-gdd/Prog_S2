@@ -11,12 +11,12 @@ using std::string;
 
 int Heap::leftChild(int nodeIndex)
 {
-    return 0;
+    return nodeIndex * 2 + 1;
 }
 
 int Heap::rightChild(int nodeIndex)
 {
-    return 0;
+    return nodeIndex * 2 + 2;
 }
 
 void Heap::insertHeapNode(int heapSize, int value)

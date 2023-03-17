@@ -1,6 +1,9 @@
 #include <iostream>
 using namespace std;
 
+#define INDICE 4
+#define VALEUR 49
+
 struct Noeud
 {
     int donnee;
@@ -11,7 +14,6 @@ struct Liste
 {
     int nb_noeud;
     Noeud* premier;
-    // your code
 };
 
 struct DynaTableau
@@ -85,7 +87,7 @@ void affiche(const Liste* liste)
 int recupere(const Liste* liste, int n)
 {
     if(n > liste->nb_noeud || n < 0)
-        return -666;
+        return -1;
 
     int i = 0;
     Noeud *n_actuel = liste->premier;
@@ -120,7 +122,7 @@ int cherche(const Liste* liste, int valeur)
 
 void stocke(Liste* liste, int n, int valeur)
 {
-    /*Noeud *n_actuel = liste->premier;
+    Noeud *n_actuel = liste->premier;
     int i = 0;
     aimNode->donnee = valeur;
 
@@ -134,7 +136,7 @@ void stocke(Liste* liste, int n, int valeur)
         }
         iterator++;
         currentNode = currentNode->suivant;
-    }*/
+    }
 
 
 }
@@ -205,7 +207,6 @@ int retire_pile(Liste* liste)
 int main()
 {
     int recup = 0;
-    int valeur = 49;
 
     Liste liste;
     initialise(&liste);
@@ -213,7 +214,7 @@ int main()
     initialise(&tableau, DynaTableau, 5);*/
 
     if (!est_vide(&liste) )
-        std::cout << "La liste est cassé(e) snif..." << std::endl;
+        std::cout << "La liste est cassée snif..." << std::endl;
 
     /*if (!est_vide(&tableau))
         std::cout << "Oups y a une anguille dans mon tableau" << std::endl;*/
@@ -225,9 +226,7 @@ int main()
     }
 
     if (est_vide(&liste))
-    {
-        std::cout << "Oups y a une anguille dans ma liste" << std::endl;
-    }
+        std::cout << "Oups ma liste ne devrait pas être vide" << std::endl;
 
     /*if (est_vide(&tableau))
     {
@@ -239,18 +238,17 @@ int main()
     //affiche(&tableau);
     std::cout << std::endl;
 
-    recup = recupere(&liste, 4);
-    if(recup == -666)
+    recup = recupere(&liste, INDICE);
+    if(recup == -1)
         cout << "Oups vous utilisez un indice qui est trop grand/petit pour la liste" << endl;
     else
-        cout << "Element indice 4 de la liste: " << recupere(&liste, 4) << std::endl;
-    /*std::cout << "5e valeur du tableau " << recupere(&tableau, 4) << std::endl;*/
+        cout << "Element indice " << INDICE << " de la liste: " << recupere(&liste, INDICE) << std::endl;
 
-    recup = cherche(&liste, valeur);
+    recup = cherche(&liste, VALEUR);
     if(recup == -1)
-        cout << "La valeur " << valeur << " ne se trouve pas dans la liste\n";
+        cout << "La valeur " << VALEUR << " ne se trouve pas dans la liste\n";
     else
-        cout << "La valeur " << valeur << " se trouve à l'indice " << recup << endl;
+        cout << "La valeur " << VALEUR << " se trouve à l'indice " << recup << endl;
         
     /*std::cout << "15 se trouve dans la liste à " << cherche(&tableau, 15) << std::endl;
 
