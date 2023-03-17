@@ -10,12 +10,12 @@ MainWindow* w = nullptr;
 using std::size_t;
 using std::string;
 
-size_t Heap::leftChildIndex(int nodeIndex)
+int Heap::leftChildIndex(int nodeIndex)
 {
     return nodeIndex * 2 + 1;
 }
 
-size_t Heap::rightChildIndex(int nodeIndex)
+int Heap::rightChildIndex(int nodeIndex)
 {
     return nodeIndex * 2 + 2;
 }
@@ -58,9 +58,14 @@ void Heap::buildHeap(Array& numbers)
 		insertHeapNode(numbers.size(), numbers[i]);
 }
 
+// Construit un tableau trié à partir d’un tas heap
 void Heap::heapSort()
 {
-
+	for(size_t i = this->size(); i > 0; i--)
+	{
+		std::swap(this->get(0), this->get(i));
+		heapify(i, 0);
+	}
 }
 
 int main(int argc, char *argv[])
