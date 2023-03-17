@@ -61,7 +61,7 @@ void Heap::buildHeap(Array& numbers)
 // Construit un tableau trié à partir d’un tas heap
 void Heap::heapSort()
 {
-	for(size_t i = this->size(); i > 0; i--)
+	for(size_t i = this->size() - 1; i > 0; i--)
 	{
 		std::swap(this->get(0), this->get(i));
 		heapify(i, 0);
