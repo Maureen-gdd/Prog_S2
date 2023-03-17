@@ -10,6 +10,7 @@ MainWindow* w = nullptr;
 using std::size_t;
 using std::string;
 
+// FINISHED
 int Heap::leftChildIndex(int nodeIndex)
 {
     return nodeIndex * 2 + 1;
