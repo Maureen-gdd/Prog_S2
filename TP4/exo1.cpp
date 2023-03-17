@@ -37,6 +37,18 @@ void Heap::heapify(int heapSize, int nodeIndex)
 {
 	
 	int i_max = nodeIndex;
+
+	if(leftChildIndex(nodeIndex) < heapSize && this->get(leftChildIndex(nodeIndex)) > this->get(i_max))
+		i_max = leftChildIndex(nodeIndex);
+
+	if(rightChildIndex(nodeIndex) < heapSize && this->get(rightChildIndex(nodeIndex)) > this->get(i_max))
+		i_max = rightChildIndex(nodeIndex);
+
+	if(i_max != nodeIndex)
+	{
+		std::swap(this->get(nodeIndex), this->get(i_max));
+		heapify(heapSize, i_max);
+	}
 }
 
 void Heap::buildHeap(Array& numbers)
