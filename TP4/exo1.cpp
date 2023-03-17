@@ -51,9 +51,11 @@ void Heap::heapify(int heapSize, int nodeIndex)
 	}
 }
 
+// Construit un tas à partir des valeurs de numbers
 void Heap::buildHeap(Array& numbers)
 {
-
+	for(size_t i = 0; i < numbers.size(); i++)
+		insertHeapNode(numbers.size(), numbers[i]);
 }
 
 void Heap::heapSort()
