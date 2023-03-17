@@ -19,8 +19,8 @@
 #include <QTimer>
 
 #include "thread.h"
+#include "utils.h"
 
-class AbstractArray;
 class Array;
 
 using std::size_t;

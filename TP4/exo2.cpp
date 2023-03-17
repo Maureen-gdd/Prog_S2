@@ -5,121 +5,196 @@
 #include <QDebug>
 
 #include "tp3.h"
+#include "tp4.h"
+#include "tp4_exo2.h"
 #include "HuffmanNode.h"
 
-_TestMainWindow* w = nullptr;
+_TestMainWindow* w1 = nullptr;
 using std::size_t;
 using std::string;
 
-void HuffmanHeap::insertHeapNode(int heapSize, unsigned char c, int frequences)
+void processCharFrequences(string data, Array& frequences);
+void buildHuffmanHeap(const Array& frequences, HuffmanHeap& priorityMinHeap, int& heapSize);
+HuffmanNode* makeHuffmanSubTree(HuffmanNode* rightNode, HuffmanNode* leftNode);
+HuffmanNode* buildHuffmanTree(HuffmanHeap& priorityMinHeap, int heapSize);
+
+string huffmanEncode(const string& toEncode, HuffmanNode* huffmanTree);
+string huffmanDecode(const string& toDecode, const HuffmanNode& huffmanTreeRoot);
+
+
+void main_function(HuffmanNode*& huffmanTree)
 {
-    /**
-      * Do Like Heap::insertHeapNode (exo1) but use HuffmanNode instead of
-      * int, this->get(i): HuffmanNode*  <-> this->get(i).frequences
-     **/
-    int i = heapSize;
+    string data = "Ouesh, bien ou bien ? Ceci est une chaine de caracteres sans grand interet";
+
+    // this array store each caracter frequences indexed by their ascii code
+    Array characterFrequences(256);
+    characterFrequences.fill(0);
+    // this array store each caracter code indexed by their ascii code
+    string characterCodes[256];
+    HuffmanHeap priorityMinHeap;
+    int heapSize = 0;
+
+    processCharFrequences(data, characterFrequences);
+    displayCharacterFrequences(characterFrequences);
+    buildHuffmanHeap(characterFrequences, priorityMinHeap, heapSize);
+    qDebug() << priorityMinHeap.toString().toStdString().c_str();
+
+    huffmanTree = buildHuffmanTree(priorityMinHeap, heapSize);
+    huffmanTree->processCodes("");
+    string encoded = huffmanEncode(data, huffmanTree);
+    string decoded = huffmanDecode(encoded, *huffmanTree);
+
+    qDebug("Encoded: %s\n", encoded.c_str());
+    qDebug("Decoded: %s\n", decoded.c_str());
 }
 
-void HuffmanNode::insertNode(HuffmanNode* node)
-{
-    if( this->isLeaf() )
-    {
-        /**
-         * On crée un nouveau noeud qui copie les données de this
-         * (char, frequences)
-         * Selon la valeur du noeud à insérer on l'insère soit à gauche
-         * soit à droite et on insère la copie de this de l'autre coté
-         *
-         * La feuille courante (this) devient un parent et donc sa
-         * fréquence devient la somme de ses nouveaux enfants et
-         * son caractère devient '\0'
-        **/
-        HuffmanNode* copy = new HuffmanNode(this->character, this->frequences);
-        this->character = '\0';
-    }
-    else
-    {
-        /**
-         * Le noeud courant est un parent donc il faut demander
-         * aux enfants d'insérer (soit à gauche si 3*node->frequences < this->frequences
-         * soit à droite)
-         * Remarques: Si un noeud n'est pas une feuille alors ses deux enfants sont
-         * non-null (grâce à la condition d'au-dessus)
-        **/
-    }
-    /**
-     * à chaque insertion on additionne au noeud courant la valeur
-     * du noeud à insérer (pour faire en sorte que la valeur du parent soit
-     * toujours la somme de ses deux enfants)
-     **/
-    this->frequences += node->frequences;
-}
 
-void HuffmanNode::processCodes(std::string baseCode)
+void processCharFrequences(string data, Array& frequences)
 {
     /**
-      * Travel whole tree of HuffmanNode, each time you call the left
-      * child, add '0' to the baseCode and each time call the right
-      * child, add '1'. If the node is a leaf, it takes the baseCode.
-     **/
-}
-
-void HuffmanNode::fillCharactersArray(HuffmanNode** nodes_for_chars)
-{
-    if (!this->left && !this->right)
-        nodes_for_chars[this->character] = this;
-    else {
-        if (this->left)
-            this->left->fillCharactersArray(nodes_for_chars);
-        if (this->right)
-            this->right->fillCharactersArray(nodes_for_chars);
-    }
-}
-
-void charFrequences(string data, Array& frequences)
-{
-    /**
+      * Fill `frequences` array with each caracter frequence.
       * frequences is an array of 256 int. frequences[i]
       * is the frequence of the caracter with ASCII code i
      **/
+
+    // Your code
+    frequences.fill(0);
 }
 
-void huffmanHeap(Array& frequences, HuffmanHeap& heap, int& heapSize)
+void HuffmanHeap::insertHeapNode(int heapSize, HuffmanNode* newNode)
+{
+    /**
+      * Insert a HuffmanNode into the lower heap. A min-heap put the lowest value
+      * as the first cell, so check the parent should be lower than children.
+      * Instead of storing int, the cells of HuffmanHeap store HuffmanNode*.
+      * To compare these nodes use their frequences.
+      * this->get(i): HuffmanNode*  <-> this->get(i)->frequences
+      * you can use `this->swap(firstIndex, secondIndex)`
+     **/
+
+    // Your code
+    int i = heapSize;
+
+}
+
+void buildHuffmanHeap(const Array& frequences, HuffmanHeap& priorityMinHeap, int& heapSize)
 {
     /**
       * Do like Heap::buildHeap. Use only non-null frequences
       * Define heapSize as numbers of inserted nodes
+      * allocate a HuffmanNode with `new`
      **/
+
+    // Your code
     heapSize = 0;
+
 }
 
-void huffmanDict(HuffmanHeap& heap, int heapSize, HuffmanNode*& dict)
+void HuffmanHeap::heapify(int heapSize, int nodeIndex)
 {
     /**
-      * For each value in heap, insert a new node in dict
+      * Repair the heap starting from nodeIndex. this is a min-heap,
+      * so check the parent should be lower than children.
+      * this->get(i): HuffmanNode*  <-> this->get(i)->frequences
+      * you can use `this->swap(firstIndex, secondIndex)`
      **/
-    dict = new HuffmanNode(heap[0].character, heap[0].frequences);
+    // Your code
+
 }
 
-string huffmanEncode(HuffmanNode** characters, string toEncode)
+
+HuffmanNode* HuffmanHeap::extractMinNode(int heapSize)
 {
     /**
-      * characters gather all leaves in the Huffman dict
-      * characters[i] is the HuffmanNode representing the
-      * character with the ASCII code i
+      * Extract the first cell, replace the first cell with the last one and
+      * heapify the heap to get a new well-formed heap without the returned cell
+      * you can use `this->swap`
      **/
+
+    // Your code
+}
+
+HuffmanNode* makeHuffmanSubTree(HuffmanNode* rightNode, HuffmanNode* leftNode)
+{
+    /**
+     * Make a subtree (parent + 2 children) with the given 2 nodes.
+     * These 2 characters will be the children of a new parent node which character is '\0'
+     * and frequence is the sum of the 2 children frequences
+     * Return the new HuffmanNode* parent
+     **/
+    // Your code
+    return new HuffmanNode('\0');
+}
+
+HuffmanNode* buildHuffmanTree(HuffmanHeap& priorityMinHeap, int heapSize)
+{
+    /**
+      * Build Huffman Tree from the priorityMinHeap, pick nodes from the heap until having
+      * one node in the heap. For every 2 min nodes, create a subtree and put the new parent
+      * into the heap. The last node of the heap is the HuffmanTree;
+      * use extractMinNode()
+     **/
+
+    // Your code
+    return new HuffmanNode('?');
+}
+
+void HuffmanNode::processCodes(const std::string& baseCode)
+{
+    /**
+      * Travel whole tree of HuffmanNode to determine the code of each
+      * leaf/character.
+      * Each time you call the left child, add '0' to the baseCode
+      * and each time call the right child, add '1'.
+      * If the node is a leaf, it takes the baseCode.
+     **/
+
+    // Your code
+}
+
+void HuffmanNode::fillCharactersArray(std::string charactersCodes[])
+{
+    /**
+      * Fill the string array with all nodes codes of the tree
+      * It store a node into the cell corresponding to its ascii code
+      * For example: the node describing 'O' should be at index 79
+     **/
+    if (!this->left && !this->right)
+        charactersCodes[this->character] = this->code;
+    else {
+        if (this->left)
+            this->left->fillCharactersArray(charactersCodes);
+        if (this->right)
+            this->right->fillCharactersArray(charactersCodes);
+    }
+}
+
+string huffmanEncode(const string& toEncode, HuffmanNode* huffmanTree)
+{
+    /**
+      * Encode a string by using the huffman compression.
+      * With the huffmanTree, determine the code for each character
+     **/
+
+    // Your code
+    std::string charactersCodes[256]; // array of 256 huffman codes for each character
+    huffmanTree->fillCharactersArray(charactersCodes);
     string encoded = "";
+
     return encoded;
 }
 
-string huffmanDecode(HuffmanNode* dict, string toDecode)
+
+string huffmanDecode(const string& toDecode, const HuffmanNode& huffmanTreeRoot)
 {
     /**
       * Use each caracters of toDecode, which is '0' either '1',
-      * to travel the Huffman dict. Each time you get a leaf, get
+      * to travel the Huffman tree. Each time you get a leaf, get
       * the decoded character of this node.
      **/
+    // Your code
     string decoded = "";
+
     return decoded;
 }
 
@@ -128,42 +203,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Array::wait_for_operations = false;
-    w = new _TestMainWindow();
-
-    string data = "Ouesh, bien ou bien ? Ceci est une chaine de caracteres sans grand interet";
-
-    Array& frequences = w->newArray(256);
-    HuffmanHeap heap(256);
-    HuffmanNode* dict;
-    int i;
-
-    for (i=0; i < (int)frequences.size(); ++i)
-        frequences.__set__(i, 0);
-
-    charFrequences(data, frequences);
-
-    for (i=0; i < (int)frequences.size(); ++i)
-        if (frequences[i]>0)
-            qDebug() << (char)i << ": " << frequences[i];
-
-    int heapSize=0;
-
-    huffmanHeap(frequences, heap, heapSize);
-    huffmanDict(heap, heapSize, dict);
-    dict->processCodes("");
-
-    HuffmanNode* characters[256];
-    memset(characters, 0, 256 * sizeof (HuffmanNode*));
-    dict->fillCharactersArray(characters);
-
-    string encoded = huffmanEncode(characters, data);
-    string decoded = huffmanDecode(dict, encoded);
-
-    w->addBinaryNode(dict);
-    w->updateScene();
-    qDebug("Encoded: %s\n", encoded.c_str());
-    qDebug("Decoded: %s\n", decoded.c_str());
-    w->show();
-
+    w1 = new HuffmanMainWindow(main_function);
+    w1->show();
     return a.exec();
 }

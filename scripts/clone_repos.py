@@ -73,11 +73,11 @@ if __name__ == '__main__':
             # print(remote, remote_url)
 
             user_dir = os.path.join(current_dir, '..', remote.replace(' ', '_'))
-
-            try:
-                subprocess.check_call(["git", "clone", remote_url, user_dir], cwd=current_dir)
-            except subprocess.SubprocessError as e:
-                print(e)
+            if not os.path.isdir(user_dir) or not os.listdir(user_dir):
+                try:
+                    subprocess.check_call(["git", "clone", remote_url, user_dir], cwd=current_dir)
+                except subprocess.SubprocessError as e:
+                    print(e)
 
             try:
                 os.remove(os.path.join(user_dir, ".git/rebase-merge"))
@@ -90,6 +90,7 @@ if __name__ == '__main__':
 
             subprocess.Popen(["git", "fetch", "-a"], cwd=user_dir).wait()
             subprocess.Popen(["git", "checkout", "--theirs", "."], cwd=user_dir).wait()
-            subprocess.Popen(["git", "pull", "-X", "theirs", "origin", "master"], cwd=user_dir).wait()
-            subprocess.Popen(["git", "pull", "-X", "theirs", "origin", "main"], cwd=user_dir).wait()
-            subprocess.Popen(["git", "checkout", "--theirs", "."], cwd=user_dir).wait()
+            try:
+                subprocess.check_call(["git", "pull", "-X", "theirs", "origin", "master"], cwd=user_dir)
+            except:
+                subprocess.Popen(["git", "pull", "-X", "theirs", "origin", "main"], cwd=user_dir).wait()

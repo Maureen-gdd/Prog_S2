@@ -2,8 +2,6 @@
 #include "mainwindow.h"
 
 
-#include <QThread>
-
 bool AbstractArray::wait_for_operations = true;
 
 AbstractArray::AbstractArray(size_t size)
@@ -22,9 +20,9 @@ AbstractArray::AbstractArray(const AbstractArray &other)
 void AbstractArray::operation_sleep(float factor) const
 {
     if (wait_for_operations)
-        std::this_thread::sleep_for(std::chrono::milliseconds(
+        custom_msleep(
             (long)(MainWindow::instruction_duration*factor)
-        ));
+        );
 }
 
 void AbstractArray::resize(size_t size)
@@ -73,6 +71,12 @@ size_t Array::effectiveSize() const
         else
             size++;
     return size;
+}
+
+void Array::fill(const int value)
+{
+    for (size_t i=0; i<size(); ++i)
+        _data[i] = value;
 }
 
 void Array::fillRandom(const int min, const int max)

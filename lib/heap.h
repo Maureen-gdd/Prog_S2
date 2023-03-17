@@ -3,7 +3,7 @@
 
 #include "array.h"
 
-
+#ifndef DISABLE_HEAP
 class Heap : public Array
 {
 public:
@@ -11,9 +11,9 @@ public:
 	Heap(const Heap& other);
 	Heap(const std::vector<int>& other);
 
-	int leftChild(int nodeIndex);
+    int leftChildIndex(int nodeIndex);
 
-	int rightChild(int nodeIndex);
+    int rightChildIndex(int nodeIndex);
 
 	void insertHeapNode(int heapSize, int value);
 
@@ -39,4 +39,5 @@ public:
 //	std::vector<char> characters;
 //};
 
+#endif // DISABLE_HEAP
 #endif // HEAP_H

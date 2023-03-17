@@ -8,6 +8,7 @@
 #include "thread.h"
 #include "tp3.h"
 
+#ifndef DISABLE_HEAP
 class HeapNumberGraphicsItem : public TreeNumberGraphicsItem
 {
 public:
@@ -74,5 +75,20 @@ private:
 
     QVector<QVector<HeapNumberGraphicsItem*> > heapItems;
 };
+#endif // DISABLE_HEAP
+
+struct HuffmanNode;
+class HuffmanMainWindow;
+
+class HuffmanThread : public TestThread<std::function<void(HuffmanNode*&)> >
+{
+public:
+    HuffmanThread(HuffmanMainWindow* mainWindow, HuffmanThread::ThreadFunctionType function,
+               QObject *parent = nullptr);
+
+    virtual void run() override;
+};
+
+void displayCharacterFrequences(Array frequences);
 
 #endif // TP4_H

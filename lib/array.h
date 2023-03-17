@@ -17,7 +17,7 @@
 #include <stdexcept>
 
 #include "mainwindow.h"
-
+#include "utils.h"
 
 template<typename ... Args>
 std::string string_format( const std::string& format, Args ... args )
@@ -232,7 +232,7 @@ public:
 
     virtual ~Array() {}
 
-    void clear(int start, int end)
+    void clear(int start, int end, int value=-1)
     {
         for (int i=start; i<end; ++i)
             _data[i] = -1;
@@ -240,8 +240,9 @@ public:
 
     size_t effectiveSize() const;
 
-    void fillRandom(const int min, const int max);
 
+    void fill(const int value);
+    void fillRandom(const int min, const int max);
     void fillSortedRandom(const int min, const int max);
 
     std::vector<int>::iterator begin();

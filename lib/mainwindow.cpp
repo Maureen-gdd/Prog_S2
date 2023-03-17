@@ -13,6 +13,8 @@
 #include <QDoubleSpinBox>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsWidget>
+#include <QMutex>
+#include <QWaitCondition>
 #include <QPair>
 
 #include "array.h"
@@ -93,7 +95,7 @@ Array &MainWindow::newRandomArray(uint size)
 	Array& array = *arrays.last();
 	array.fillRandom(0,255);
 	this->dirty = true;
-	std::this_thread::sleep_for(std::chrono::milliseconds(MainWindow::instruction_duration / 3));
+	custom_msleep(MainWindow::instruction_duration / 3);
 	return array;
 }
 
@@ -102,7 +104,7 @@ Array &MainWindow::newSortedRandomArray(uint size)
 	arrays.push_back(new Array(size));
 	Array& array = *arrays.last();
 	array.fillSortedRandom(0,500);
-	std::this_thread::sleep_for(std::chrono::milliseconds(MainWindow::instruction_duration / 2));
+	custom_msleep(MainWindow::instruction_duration / 2);
 	return array;
 }
 
@@ -110,7 +112,7 @@ Array &MainWindow::newArray(uint size)
 {
 	arrays.push_back(new Array(size));
 	Array& array = *arrays.last();
-	std::this_thread::sleep_for(std::chrono::milliseconds(MainWindow::instruction_duration / 2));
+	custom_msleep(MainWindow::instruction_duration / 2);
 	this->dirty = true;
 	return array;
 }
@@ -153,7 +155,7 @@ void MainWindow::updateBackground()
 void MainWindow::pushFunctionCall(QString functionName, int parameter)
 {
     functionCalls.push(QString("%1(%2)").arg(functionName).arg(QString::number(parameter)));
-    std::this_thread::sleep_for(std::chrono::milliseconds(MainWindow::instruction_duration));
+    custom_msleep(MainWindow::instruction_duration);
 }
 
 void MainWindow::pushFunctionCall(QString functionName, int parameter1, int parameter2)
@@ -161,7 +163,7 @@ void MainWindow::pushFunctionCall(QString functionName, int parameter1, int para
     functionCalls.push(QString("%1(%2, %3)").arg(functionName)
                                             .arg(parameter1)
                                             .arg(parameter2));
-    std::this_thread::sleep_for(std::chrono::milliseconds(MainWindow::instruction_duration));
+    custom_msleep(MainWindow::instruction_duration);
 }
 
 void MainWindow::pushFunctionCall(QString functionName, Point parameter1, int parameter2, Point parameter3)
@@ -172,7 +174,7 @@ void MainWindow::pushFunctionCall(QString functionName, Point parameter1, int pa
                                             .arg(parameter2)
                                             .arg(parameter3.x)
                                             .arg(parameter3.y));
-    std::this_thread::sleep_for(std::chrono::milliseconds(MainWindow::instruction_duration));
+    custom_msleep(MainWindow::instruction_duration);
 }
 
 void MainWindow::pushFunctionCall(QString functionName, const Array& parameter1, int parameter2)
@@ -180,7 +182,7 @@ void MainWindow::pushFunctionCall(QString functionName, const Array& parameter1,
     functionCalls.push(QString("%1(array<%2 elements>, %3)").arg(functionName)
                                             .arg(parameter1.size())
                                             .arg(parameter2));
-    std::this_thread::sleep_for(std::chrono::milliseconds(MainWindow::instruction_duration));
+    custom_msleep(MainWindow::instruction_duration);
 }
 
 void MainWindow::pushFunctionCall(QString functionName, const Array &parameter1, const Array &parameter2, int parameter3, int parameter4)
@@ -191,7 +193,7 @@ void MainWindow::pushFunctionCall(QString functionName, const Array &parameter1,
                                             .arg(parameter2.size())
                                             .arg(parameter3)
                                             .arg(parameter4));
-    std::this_thread::sleep_for(std::chrono::milliseconds(MainWindow::instruction_duration));
+    custom_msleep(MainWindow::instruction_duration);
 }
 
 int MainWindow::popFunctionCall(int result)
@@ -208,10 +210,10 @@ void MainWindow::popFunctionCall(QVariant result)
         {
             QGraphicsTextItem* item = functionCallItems.takeLast();
             while (toAdd.contains(item))
-                std::this_thread::sleep_for(std::chrono::milliseconds(20));
+                custom_msleep(20);
             toUpdate.push_back(QPair<QGraphicsTextItem*, QString>(item, item->toPlainText() +
                                                                   QString(" -> %1").arg(result.toString())));
-            std::this_thread::sleep_for(std::chrono::milliseconds(MainWindow::instruction_duration));
+            custom_msleep(MainWindow::instruction_duration);
             toRemove.push_back(item);
         }
         functionCalls.pop();
@@ -233,9 +235,10 @@ void MainWindow::clearArrays()
 {
     while (!this->numberItems.isEmpty())
     {
-        for (QGraphicsItem* item : numberItems.takeLast()) {
+        for (QGraphicsItem* item : numberItems.last()) {
             toRemove.push_back(item);
         }
+		numberItems.pop_back();
     }
     arrays.clear();
     maxNumbersY = 0;
@@ -327,7 +330,7 @@ void MainWindow::updateInstructionDuration(int value)
 
 int MainWindow::updateNumberItems(int itemWidth, int& maxX, int& maxY)
 {
-    if (numberItems.length())
+    if (numberItems.size())
         maxY += qMin<int>(qMax<int>(50, scene.height() * 0.01f), 150);
 
     maxX = 0;

@@ -12,6 +12,7 @@ TARGET = Algorithm_TD5_exo2
 TEMPLATE = app
 CONFIG += c++11
 
+QMAKE_CXXFLAGS += -std=c++11
 DEFINES += USE_NODE
 DEFINES += EXO2
 

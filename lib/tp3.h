@@ -123,7 +123,7 @@ public:
 class BinarySearchThread : public TestThread<std::function<int(Array&, int)> >
 {
 
-    public:
+public:
     BinarySearchThread(MainWindow* mainWindow, ThreadFunctionType function, QObject *parent = nullptr)
         : TestThread<ThreadFunctionType>(mainWindow, function, parent)
     {
@@ -148,7 +148,7 @@ public:
 class BinarySearchAllThread : public TestThread<std::function<void(Array&, int, int&, int&)> >
 {
 
-    public:
+public:
     BinarySearchAllThread(MainWindow* mainWindow, ThreadFunctionType function, QObject *parent = nullptr)
         : TestThread<ThreadFunctionType>(mainWindow, function, parent)
     {

@@ -12,6 +12,7 @@ TARGET = Algorithm_TD2_exo2
 TEMPLATE = app
 CONFIG += c++11
 
+QMAKE_CXXFLAGS += -std=c++11
 SOURCES += \
 		exo2.cpp \
 		../lib/mainwindow.cpp \

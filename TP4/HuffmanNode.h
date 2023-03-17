@@ -34,8 +34,8 @@ struct HuffmanNode : public Node
     virtual bool isLeaf() const {return !this->left && !this->right;}
 
     void insertNode(HuffmanNode*);
-    void processCodes(std::string baseCode);
-    void fillCharactersArray(HuffmanNode** nodes_for_chars);
+    void processCodes(const std::string &baseCode);
+    void fillCharactersArray(std::string nodes_for_chars[]);
 
 
     virtual ~HuffmanNode() {}
@@ -46,42 +46,59 @@ struct HuffmanNode : public Node
 };
 
 
-class HuffmanHeap : public TemplateArray<HuffmanNode>
+class HuffmanHeap : public TemplateArray<HuffmanNode*>
 {
 public:
+    typedef TemplateArray<HuffmanNode*> Base;
+
     virtual ~HuffmanHeap() {}
 
-    HuffmanHeap(uint size=100) : TemplateArray<HuffmanNode>()
+    HuffmanHeap(uint size=100) : TemplateArray<HuffmanNode*>()
     {
         if (size>0)
         {
             _data.resize(size);
             for (uint i=0; i<size; ++i)
-                _data[i] = -1;
+                _data[i] = nullptr;
         }
     }
 
     QString toString() const
     {
         QStringList list;
-        for (const HuffmanNode& value : _data)
+        for (const HuffmanNode* value : _data)
         {
-            list.append(value.toString());
+            if(!value)
+                break;
+            list.append(value->toString().replace('\n', ""));
         }
-        return QString("[%1]").arg(list.join(", "));
+        return QString("[\n%1\n]").arg(list.join(", "));
     }
 
 
     virtual size_t effectiveSize() const
     {
-        return _data.size();
+        size_t size=0;
+        for (const HuffmanNode* value : _data)
+            if (value == nullptr)
+                return size;
+            else
+                size++;
+        return size;
     }
 
-    HuffmanNode& get(uint index) {
+    HuffmanNode* get(uint index) const {
         return _data[index];
     }
 
-    void insertHeapNode(int heapSize, unsigned char c, int frequences);
+    void insertHeapNode(int heapSize, HuffmanNode *newNode);
+    void heapify(int heapSize, int nodeIndex);
+    HuffmanNode* extractMinNode(int heapSize);
+
+protected:
+    void insert(const int index, const ElementType& value) {
+        Base::insert(index, value);
+    }
 };
 
 #endif // HUFFMANNNODE_H

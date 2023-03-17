@@ -8,7 +8,7 @@ void SorterThread::run() {
         int n = mainWindow->getParam("n").toInt();
         mainWindow->clearArrays();
         Array& arrayToSort = mainWindow->newRandomArray(n);
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        custom_msleep(2000);
 		this->function(arrayToSort);
 		assertSort(arrayToSort);
         success = true;

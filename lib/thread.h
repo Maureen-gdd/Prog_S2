@@ -3,6 +3,7 @@
 
 #include <QThread>
 #include <thread>
+#include <functional>
 #include <chrono>
 
 class MainWindow;
@@ -25,7 +26,7 @@ public:
 
 	TestThread(MainWindow* mainWindow, FunctionType function,
 			   QObject *parent = nullptr)
-		: Thread(parent), function(function), mainWindow(mainWindow), success(false) {}
+        : Thread(parent), function(function), mainWindow(mainWindow), success(false) {}
 
 	virtual bool succeeded() const {return success;}
 	virtual const QString& message() const {return _message;}
@@ -35,6 +36,15 @@ protected:
 	MainWindow* mainWindow;
 	QString _message;
 	bool success;
+};
+
+class NoParameterThread : public TestThread<std::function<void()>>
+{
+
+public:
+    NoParameterThread(MainWindow* mainWindow, TestThread::ThreadFunctionType function,
+              QObject *parent = nullptr) : TestThread(mainWindow, function, parent) {}
+    virtual void run() override;
 };
 
 #endif // THREAD_H

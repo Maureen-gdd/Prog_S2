@@ -53,9 +53,14 @@ void _TestMainWindow::updateScene()
     while (treeItems.size() < nodes.size())
     {
         Node* node = nodes[treeItems.size()];
-        TreeNumberGraphicsItem* item = new TreeNumberGraphicsItem(node);
-        treeItems.push_back(item);
-        toAdd.append(item);
+        if (node){
+            TreeNumberGraphicsItem* item = new TreeNumberGraphicsItem(node);
+            treeItems.push_back(item);
+            toAdd.append(item);
+        }
+        else{
+            break;
+        }
     }
 
     for (TreeNumberGraphicsItem* item : treeItems)

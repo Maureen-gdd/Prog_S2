@@ -11,18 +11,21 @@ QT       += core gui widgets
 TARGET = Algorithm_TD2_exo0
 TEMPLATE = app
 CONFIG += c++11
+QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \
-		exo0.cpp \
-		../lib/mainwindow.cpp \
-		../lib/thread.cpp \
-		../lib/array.cpp \
-		../lib/tp1.cpp \
+        ../lib/utils.cpp \
+        exo0.cpp \
+        ../lib/mainwindow.cpp \
+        ../lib/thread.cpp \
+        ../lib/array.cpp \
+        ../lib/tp1.cpp \
 
 HEADERS += \
-		../lib/mainwindow.h \
-		../lib/thread.h \
-		../lib/array.h \
-		../lib/tp1.h \
+        ../lib/mainwindow.h \
+        ../lib/thread.h \
+        ../lib/array.h \
+        ../lib/tp1.h \
+        ../lib/utils.h
 
 INCLUDEPATH += ../lib

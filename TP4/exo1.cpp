@@ -10,12 +10,12 @@ MainWindow* w = nullptr;
 using std::size_t;
 using std::string;
 
-int Heap::leftChild(int nodeIndex)
+int Heap::leftChildIndex(int nodeIndex)
 {
     return nodeIndex * 2 + 1;
 }
 
-int Heap::rightChild(int nodeIndex)
+int Heap::rightChildIndex(int nodeIndex)
 {
     return nodeIndex * 2 + 2;
 }

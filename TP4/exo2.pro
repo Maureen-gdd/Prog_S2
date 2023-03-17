@@ -12,7 +12,9 @@ TARGET = Algorithm_TD4_exo2
 TEMPLATE = app
 CONFIG += c++11
 
+QMAKE_CXXFLAGS += -std=c++11
 DEFINES += USE_NODE
+DEFINES += DISABLE_HEAP
 
 SOURCES += \
         exo2.cpp \
@@ -22,6 +24,8 @@ SOURCES += \
         ../lib/binarytree.cpp \
         ../lib/heap.cpp \
         ../lib/tp3.cpp \
+        ../lib/tp4.cpp \
+    ../lib/tp4_exo2.cpp
 
 HEADERS += \
         HuffmanNode.h \
@@ -31,5 +35,7 @@ HEADERS += \
         ../lib/binarytree.h \
         ../lib/heap.h \
         ../lib/tp3.h \
+        ../lib/tp4.h \
+    ../lib/tp4_exo2.h
         
 INCLUDEPATH += ../lib
