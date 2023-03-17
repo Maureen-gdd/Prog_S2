@@ -10,12 +10,12 @@ MainWindow* w = nullptr;
 using std::size_t;
 using std::string;
 
-int Heap::leftChildIndex(int nodeIndex)
+size_t Heap::leftChildIndex(int nodeIndex)
 {
     return nodeIndex * 2 + 1;
 }
 
-int Heap::rightChildIndex(int nodeIndex)
+size_t Heap::rightChildIndex(int nodeIndex)
 {
     return nodeIndex * 2 + 2;
 }
@@ -23,7 +23,7 @@ int Heap::rightChildIndex(int nodeIndex)
 void Heap::insertHeapNode(int heapSize, int value)
 {
 	// use (*this)[i] or this->get(i) to get a value at index i
-	int i = heapSize;
+	size_t i = heapSize;
 	this->get(i) = value;
 	while(i > 0 && this->get(i) > this->get((i - 1) / 2))
 	{
@@ -36,7 +36,7 @@ void Heap::insertHeapNode(int heapSize, int value)
 void Heap::heapify(int heapSize, int nodeIndex)
 {
 	
-	int i_max = nodeIndex;
+	size_t i_max = nodeIndex;
 
 	if(leftChildIndex(nodeIndex) < heapSize && this->get(leftChildIndex(nodeIndex)) > this->get(i_max))
 		i_max = leftChildIndex(nodeIndex);
