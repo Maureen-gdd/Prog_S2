@@ -56,9 +56,13 @@ void processCharFrequences(string data, Array& frequences)
       * frequences is an array of 256 int. frequences[i]
       * is the frequence of the caracter with ASCII code i
      **/
-
-    // Your code
     frequences.fill(0);
+
+    for (size_t i = 0; i < data.size(); i++) 
+    {
+        int ascii = (int) data[i];
+        frequences[ascii] += 1;
+    }
 }
 
 void HuffmanHeap::insertHeapNode(int heapSize, HuffmanNode* newNode)
