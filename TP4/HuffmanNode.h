@@ -97,7 +97,7 @@ public:
 
 protected:
     void insert(const int index, const ElementType& value) {
-        Base::insert(index, value);
+        // Base::insert(index, value);
     }
 };
 
