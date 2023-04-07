@@ -12,6 +12,22 @@ void Graph::buildFromAdjenciesMatrix(int **adjacencies, int nodeCount)
 	  * this->appendNewNode
 	  * this->nodes[i]->appendNewEdge
 	  */
+	for(size_t i = 0; i < nodeCount; i++)
+	{
+		GraphNode* node = new GraphNode(i);
+		this->appendNewNode(node);
+	}
+
+	for(size_t i = 0; i < nodeCount; i++)
+	{
+		for(size_t j = 0; j < nodeCount; j++)
+		{
+			if(adjacencies[i][j] != 0)
+			{
+				this->nodes[i]->appendNewEdge(nodes[j], adjacencies[i][j]);
+			}
+		}
+	}
 }
 
 void Graph::deepTravel(GraphNode *first, GraphNode *nodes[], int &nodesSize, bool visited[])
@@ -19,7 +35,8 @@ void Graph::deepTravel(GraphNode *first, GraphNode *nodes[], int &nodesSize, boo
 	/**
 	  * Fill nodes array by travelling graph starting from first and using recursivity
 	  */
-
+	// mark that the note is visited
+	visited[first->value];
 }
 
 void Graph::wideTravel(GraphNode *first, GraphNode *nodes[], int &nodesSize, bool visited[])
