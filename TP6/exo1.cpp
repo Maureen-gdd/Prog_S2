@@ -36,7 +36,15 @@ void Graph::deepTravel(GraphNode *first, GraphNode *nodes[], int &nodesSize, boo
 	  * Fill nodes array by travelling graph starting from first and using recursivity
 	  */
 	// mark that the note is visited
-	visited[first->value];
+	visited[first->value] = true;
+	nodes[nodesSize++] = first;
+
+	for(Edge* currentEdge = first->edges; currentEdge != NULL; currentEdge = currentEdge->next)
+	{
+		if(!visited[currentEdge->destination->value])
+			deepTravel(currentEdge->destination, nodes, nodesSize, visited);
+	}
+
 }
 
 void Graph::wideTravel(GraphNode *first, GraphNode *nodes[], int &nodesSize, bool visited[])
