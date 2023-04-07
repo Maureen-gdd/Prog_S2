@@ -58,6 +58,20 @@ void Graph::wideTravel(GraphNode *first, GraphNode *nodes[], int &nodesSize, boo
 	 */
 	std::queue<GraphNode*> nodeQueue;
 	nodeQueue.push(first);
+
+	while(!nodeQueue.empty())
+	{
+		GraphNode* currentNode = nodeQueue.front();
+		nodes[nodesSize++] = currentNode;
+		visited[currentNode->value] = true;
+		nodeQueue.pop();
+
+		for(Edge* currentEdge = currentNode->edges; currentEdge != NULL; currentEdge = currentEdge->next)
+		{
+			if(!visited[currentEdge->destination->value])
+				nodeQueue.push(currentEdge->destination);
+		}
+	}
 }
 
 bool Graph::detectCycle(GraphNode *first, bool visited[])
