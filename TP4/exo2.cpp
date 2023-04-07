@@ -78,6 +78,12 @@ void HuffmanHeap::insertHeapNode(int heapSize, HuffmanNode* newNode)
 
     // Your code
     int i = heapSize;
+    this->set(i, newNode);
+    while(i > 0 && this->get(i)->frequences > this->get((i - 1) / 2)->frequences)
+    {
+        swap(i, (i - 1) / 2);
+        i = (i - 1) / 2;
+    }
 
 }
 
@@ -89,8 +95,15 @@ void buildHuffmanHeap(const Array& frequences, HuffmanHeap& priorityMinHeap, int
       * allocate a HuffmanNode with `new`
      **/
 
-    // Your code
     heapSize = 0;
+    for(size_t i = 0; i < frequences.size(); i++)
+    {
+        if(frequences[i] != 0)
+        {
+            priorityMinHeap.insertHeapNode(heapSize, new HuffmanNode(i, frequences[i]));
+            heapSize++;
+        }
+    }
 
 }
 
@@ -103,7 +116,6 @@ void HuffmanHeap::heapify(int heapSize, int nodeIndex)
       * you can use `this->swap(firstIndex, secondIndex)`
      **/
     // Your code
-
 }
 
 

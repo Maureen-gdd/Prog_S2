@@ -19,7 +19,8 @@ struct SearchTreeNode : public Node
         // init initial node without children
     }
 
-	void insertNumber(int value) {
+	void insertNumber(int value) 
+    {
         // create a new node and insert it in right or left child
     }
 

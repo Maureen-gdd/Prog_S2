@@ -17,13 +17,13 @@ std::vector<string> TP5::names(
 
 int HashTable::hash(std::string element)
 {
-    // use this->size() to get HashTable size
-    return 0;
+    return element.at(0) % this->size();
 }
 
 void HashTable::insert(std::string element)
 {
-    // use (*this)[i] or this->get(i) to get a value at index i
+    size_t hash_value = hash(element);
+    this->set(hash_value, element);
 }
 
 /**
@@ -34,12 +34,16 @@ void HashTable::insert(std::string element)
  */
 void buildHashTable(HashTable& table, std::string* names, int namesCount)
 {
-
+    for(size_t i = 0; i < namesCount; i++)
+        table.insert(names[i]);
 }
 
+// Retourne Vrai si l’élément word se trouve dans la table, Faux autrement.
 bool HashTable::contains(std::string element)
 {
-    // Note: Do not use iteration (for, while, ...)
+    if(this->get(hash(element)) == element)
+        return true;
+
     return false;
 }
 

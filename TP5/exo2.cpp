@@ -3,6 +3,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <string>
+#include <math.h>
 
 #include <tp5.h>
 
@@ -22,8 +23,12 @@ std::vector<string> TP5::names(
 
 unsigned long int hash(string key)
 {
-    // return an unique hash id from key
-    return 0;
+    unsigned long int hash_value = 0;
+
+    for(size_t i = 1; i <= key.size(); i++)
+        hash_value += key[i-1] * pow(128, key.size()-i);
+    
+    return hash_value;
 }
 
 struct MapNode : public BinaryTree
@@ -52,6 +57,28 @@ struct MapNode : public BinaryTree
      */
     void insertNode(MapNode* node)
     {
+        if(node->key_hash < this->key_hash) 
+        {
+            if(this->left) 
+            {
+                this->left->insertNode(node);
+            } 
+            else 
+            {
+                this->left = node;
+            }
+        } 
+        else 
+        {
+            if(this->right) 
+            {
+                this->right->insertNode(node);
+            } 
+            else 
+            {
+                this->right = node;
+            }
+        }
 
     }
 
@@ -68,7 +95,8 @@ struct MapNode : public BinaryTree
 
 struct Map
 {
-    Map() {
+    Map() 
+    {
         this->root = nullptr;
     }
 
@@ -89,7 +117,29 @@ struct Map
      */
     int get(string key)
     {
-        return -1;
+        MapNode* currentRoot = this->root;
+
+        while(currentRoot && currentRoot->key != key)
+        {
+            // choose the left or right child to continue
+            if(hash(key) < currentRoot->key_hash)
+            {
+                currentRoot = currentRoot->left;
+            }
+            else
+            {
+                currentRoot = currentRoot->right;
+            }
+        }
+
+        if(currentRoot->key == key)
+        {
+            return currentRoot->value;
+        }
+        else
+        {
+            return -1;
+        }
     }
 
     MapNode* root;
