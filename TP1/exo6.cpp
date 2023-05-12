@@ -19,7 +19,8 @@ struct Liste
 struct DynaTableau
 {
     int* donnees;
-    int capacite = 0;
+    int capacite;
+    int nb_elem;
 };
 
 
@@ -139,12 +140,33 @@ void stocke(Liste* liste, int n, int valeur)
 
 void ajoute(DynaTableau* tableau, int valeur)
 {
+    if(tableau->nb_elem >= tableau->capacite)
+    {
+        int* newTableau = new int[tableau->capacite + 1];
 
+        for (int i = 0; i < tableau->capacite; i++)
+        {
+            newTableau[i] = tableau->donnees[i];
+        }
+        newTableau[tableau->capacite] = valeur;
+        tableau->capacite++;
+        delete[] tableau->donnees;
+        tableau->donnees = newTableau;
+    }
+    else
+    {
+        tableau->donnees[tableau->nb_elem] = valeur;
+    }
+
+    tableau->nb_elem++;
 }
 
 
 void initialise(DynaTableau* tableau, int capacite)
 {
+    tableau->donnees = new int[capacite];
+    tableau->capacite = capacite;
+    tableau->nb_elem = 0;
 
 }
 
@@ -206,19 +228,18 @@ int main()
 
     Liste liste;
     initialise(&liste);
-    /*DynaTableau tableau;
-    initialise(&tableau, DynaTableau, 5);*/
+    DynaTableau tableau;
+    initialise(&tableau, 5);
 
     if (!est_vide(&liste) )
         std::cout << "La liste est cassée snif..." << std::endl;
 
-    /*if (!est_vide(&tableau))
-        std::cout << "Oups y a une anguille dans mon tableau" << std::endl;*/
+    if (!est_vide(&tableau))
+        std::cout << "Le tableau est cassé snif..." << std::endl;
 
     for (int i=1; i<=7; i++) 
     {
         ajoute(&liste, i*7);
-        //ajoute(&tableau, i*5);
     }
 
     if (est_vide(&liste))
@@ -230,6 +251,7 @@ int main()
     }*/
 
     cout << "Elements initiaux:" << endl;
+    cout << "Liste: " << endl;
     affiche(&liste);
     //affiche(&tableau);
     std::cout << std::endl;
