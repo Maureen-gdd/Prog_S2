@@ -19,7 +19,7 @@ struct Liste
 struct DynaTableau
 {
     int* donnees;
-    // your code
+    int capacite = 0;
 };
 
 
@@ -124,21 +124,15 @@ void stocke(Liste* liste, int n, int valeur)
 {
     Noeud *n_actuel = liste->premier;
     int i = 0;
-    aimNode->donnee = valeur;
-
-    int iterator = 0;
-    Noeud *currentNode = liste->premier;
-
-    while (currentNode != nullptr) {
-        if (iterator == n - 1) {
-            aimNode->suivant = currentNode->suivant;
-            currentNode->suivant = aimNode;
+    while (n_actuel->suivant != NULL)
+    {
+        if (i == n)
+        {
+            n_actuel->donnee = valeur;
         }
-        iterator++;
-        currentNode = currentNode->suivant;
+        n_actuel = n_actuel->suivant;
+        i++;
     }
-
-
 }
 
 /* ********** TABLEAU DYNAMIQUE ********** */
@@ -178,6 +172,8 @@ void stocke(DynaTableau* tableau, int n, int valeur)
 {
 
 }
+
+/* ********** FIFO / LIFO ********** */
 
 //void pousse_file(DynaTableau* liste, int valeur)
 void pousse_file(Liste* liste, int valeur)
@@ -249,7 +245,10 @@ int main()
         cout << "La valeur " << VALEUR << " ne se trouve pas dans la liste\n";
     else
         cout << "La valeur " << VALEUR << " se trouve à l'indice " << recup << endl;
-        
+
+    stocke(&liste, 4, 7);
+    std::cout << "\nElements de la liste après stockage de 7 à l'indice 4:" << std::endl;
+    affiche(&liste);
     /*std::cout << "15 se trouve dans la liste à " << cherche(&tableau, 15) << std::endl;
 
     stocke(&liste, 4, 7);
