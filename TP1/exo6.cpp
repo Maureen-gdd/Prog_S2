@@ -172,12 +172,20 @@ void initialise(DynaTableau* tableau, int capacite)
 
 bool est_vide(const DynaTableau* liste)
 {
+    if (liste->nb_elem == 0) 
+    {
+        return true;
+    }
+
     return false;
 }
 
 void affiche(const DynaTableau* tableau)
 {
-
+    for (int i = 0; i < tableau->nb_elem; i++)
+    {
+        cout << "Valeur de la case n°" << i << " = " << tableau->donnees[i] << endl;
+    }
 }
 
 int recupere(const DynaTableau* tableau, int n)
@@ -232,14 +240,19 @@ int main()
     initialise(&tableau, 5);
 
     if (!est_vide(&liste) )
-        std::cout << "La liste est cassée snif..." << std::endl;
+        std::cout << "La liste est cassée snif... Elle devrait être vide" << std::endl;
 
     if (!est_vide(&tableau))
-        std::cout << "Le tableau est cassé snif..." << std::endl;
+        std::cout << "Le tableau est cassé snif... Il devrait être vide" << std::endl;
 
     for (int i=1; i<=7; i++) 
     {
         ajoute(&liste, i*7);
+    }
+
+    for (int i=1; i<=3; i++) 
+    {
+        ajoute(&tableau, i*7);
     }
 
     if (est_vide(&liste))
