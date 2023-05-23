@@ -203,6 +203,11 @@ void stocke(DynaTableau* tableau, int n, int valeur)
 
 }
 
+int getCapacite(DynaTableau* tableau)
+{
+    return tableau->capacite;
+}
+
 /* ********** FIFO / LIFO ********** */
 
 //void pousse_file(DynaTableau* liste, int valeur)
@@ -252,23 +257,25 @@ int main()
 
     for (int i=1; i<=3; i++) 
     {
-        ajoute(&tableau, i*7);
+        ajoute(&tableau, i*5);
     }
 
     if (est_vide(&liste))
         std::cout << "Oups ma liste ne devrait pas être vide" << std::endl;
 
-    /*if (est_vide(&tableau))
+    if (est_vide(&tableau))
     {
-        std::cout << "Oups y a une anguille dans mon tableau" << std::endl;
-    }*/
+        std::cout << "Oups mon tableau ne devrait pas être vide" << std::endl;
+    }
 
     cout << "Elements initiaux:" << endl;
     cout << "Liste: " << endl;
     affiche(&liste);
-    //affiche(&tableau);
+    cout << "\nTableau Dynamique: " << endl;
+    affiche(&tableau);
     std::cout << std::endl;
 
+    /*** ********* TEST FONCTIONS LISTE ********* ***/
     recup = recupere(&liste, INDICE);
     if(recup == -1)
         cout << "Oups vous utilisez un indice qui est trop grand/petit pour la liste" << endl;
@@ -284,6 +291,28 @@ int main()
     stocke(&liste, 4, 7);
     std::cout << "\nElements de la liste après stockage de 7 à l'indice 4:" << std::endl;
     affiche(&liste);
+
+    /*** ********* TEST FONCTIONS LISTE ********* ***/
+    cout << "\nT E S T   T A B L E A U   D Y N A" << endl;
+    cout << "J'ajoute sans dépasser la capacité du tableau." << endl;
+    cout << "Capacité tableau avant: " << getCapacite(&tableau) << endl;
+    for (int i=1; i<=2; i++) 
+    {
+        ajoute(&tableau, i*4);
+    }
+    cout << "Capacité tableau après: " << getCapacite(&tableau) << endl;
+    affiche(&tableau);
+
+    cout << "\nJ'ajoute en dépassant la capacité du tableau." << endl;
+    cout << "Capacité tableau avant: " << getCapacite(&tableau) << endl;
+    for (int i=1; i<=2; i++) 
+    {
+        ajoute(&tableau, i*6);
+    }
+    cout << "Capacité tableau après: " << getCapacite(&tableau) << endl;
+    affiche(&tableau);
+
+
     /*std::cout << "15 se trouve dans la liste à " << cherche(&tableau, 15) << std::endl;
 
     stocke(&liste, 4, 7);
