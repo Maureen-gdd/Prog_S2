@@ -182,9 +182,14 @@ bool est_vide(const DynaTableau* liste)
 
 void affiche(const DynaTableau* tableau)
 {
-    for (int i = 0; i < tableau->nb_elem; i++)
+    if(tableau->nb_elem == 0)
+        cout << "Le tableau est vide" << endl;
+    else
     {
-        cout << "Valeur de la case n°" << i << " = " << tableau->donnees[i] << endl;
+        for (int i = 0; i < tableau->nb_elem; i++)
+        {
+            cout << "Valeur de la case n°" << i << " = " << tableau->donnees[i] << endl;
+        }
     }
 }
 
@@ -228,10 +233,42 @@ int getCapacite(DynaTableau* tableau)
 
 /* ********** FIFO / LIFO ********** */
 
-//void pousse_file(DynaTableau* liste, int valeur)
-void pousse_file(Liste* liste, int valeur)
+// mettre au début
+void pousse_file(DynaTableau* tableau, int valeur)
 {
+    // si le tableau est vide
+    if(tableau->nb_elem == 0)
+        tableau->donnees[0] = valeur;
+    else
+    {
+        int* newTableau = new int[tableau->capacite + 1];
+        newTableau[0] = valeur;
+        // il faut agrandir la capacité
+        if(tableau->nb_elem >= tableau->capacite)
+        {
+            for (int i = 0; i < tableau->capacite; i++)
+            {
+                newTableau[i+1] = tableau->donnees[i];
+            }
+            tableau->capacite++;
+        }
+        // pas besoin d'agrandir la capacite
+        else
+        {
+            /*int* newTableau = new int[tableau->capacite];
+            newTableau[0] = valeur;*/
 
+            for (int i = 0; i < tableau->nb_elem; i++)
+            {
+                newTableau[i+1] = tableau->donnees[i];
+            }
+        }
+
+        delete[] tableau->donnees;
+        tableau->donnees = newTableau;
+    }
+
+    tableau->nb_elem++;
 }
 
 //int retire_file(Liste* liste)
@@ -403,50 +440,28 @@ int main()
         affiche(&tableau);
 
 
-    /*std::cout << "15 se trouve dans la liste à " << cherche(&tableau, 15) << std::endl;
+    cout << "\nF O N C T I O N   P O U S S E   F I L E" << endl;
+    DynaTableau tableau2;
+    initialise(&tableau2, 2);
+    affiche(&tableau2);
 
-    stocke(&liste, 4, 7);
-    stocke(&tableau, 4, 7);
+    cout << "\nJ'utilise pousse_file sur un tableau vide" << endl;
+    pousse_file(&tableau2, 66);
+    cout << "Capacite: " << getCapacite(&tableau2) << endl;
+    affiche(&tableau2);
 
-    std::cout << "Elements après stockage de 7:" << std::endl;
-    affiche(&liste);
-    affiche(&tableau);
-    std::cout << std::endl;
+    cout << "\nJ'utilise pousse_file sur un tableau pas entièrement rempli" << endl;
+    pousse_file(&tableau2, 54);
+    cout << "Capacite: " << getCapacite(&tableau2) << endl;
+    affiche(&tableau2);
 
-    Liste pile; // DynaTableau pile;
-    Liste file; // DynaTableau file;
+    cout << "\nJ'utilise pousse_file sur un tableau entièrement rempli" << endl;
+    pousse_file(&tableau2, 21);
+    cout << "Capacite: " << getCapacite(&tableau2) << endl;
+    affiche(&tableau2);
 
-    initialise(&pile);
-    initialise(&file);
 
-    for (int i=1; i<=7; i++) {
-        pousse_file(&file, i);
-        pousse_pile(&pile, i);
-    }
 
-    int compteur = 10;
-    while(!est_vide(&file) && compteur > 0)
-    {
-        std::cout << retire_file(&file) << std::endl;
-        compteur--;
-    }
-
-    if (compteur == 0)
-    {
-        std::cout << "Ah y a un soucis là..." << std::endl;
-    }
-
-    compteur = 10;
-    while(!est_vide(&pile) && compteur > 0)
-    {
-        std::cout << retire_pile(&pile) << std::endl;
-        compteur--;
-    }
-
-    if (compteur == 0)
-    {
-        std::cout << "Ah y a un soucis là..." << std::endl;
-    }*/
 
     return 0;
 }
