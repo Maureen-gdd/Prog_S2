@@ -190,7 +190,15 @@ void affiche(const DynaTableau* tableau)
 
 int recupere(const DynaTableau* tableau, int n)
 {
-    return 0;
+    // Indice trop grand ou petit pour le tableai
+    if(n >= tableau->capacite || n < 0)
+        return -1;
+
+    // Indice dans la capacite mais le tableau n'est pas entièrement rempli
+    if(n >= tableau->nb_elem)
+        return -2;
+
+    return tableau->donnees[n];
 }
 
 int cherche(const DynaTableau* tableau, int valeur)
@@ -292,9 +300,43 @@ int main()
     std::cout << "\nElements de la liste après stockage de 7 à l'indice 4:" << std::endl;
     affiche(&liste);
 
-    /*** ********* TEST FONCTIONS LISTE ********* ***/
+    /*** ********* TEST FONCTIONS TABLEAU DYNAMIQUE ********* ***/
     cout << "\nT E S T   T A B L E A U   D Y N A" << endl;
-    cout << "J'ajoute sans dépasser la capacité du tableau." << endl;
+    cout << "\nJe vais chercher un élément en dehors de la capacité du tableau: " << endl;
+    int indice = 10;
+    cout << "Indice: " << indice << endl;
+    recup = recupere(&tableau, indice);
+    if(recup == -1)
+        cout << "Oups vous utilisez un indice qui est trop grand/petit pour le tableau" << endl;
+    else if(recup == -2)
+        cout << "Oups vous utilisez un indice dont la case du tableau n'est pas encore remplis" << endl;
+    else
+        cout << "Element indice " << indice << " de la liste: " << recup << std::endl;
+
+    cout << "\nJe vais chercher un élément dans la capacité du tableau mais la case est vide: " << endl;
+    indice = 4;
+    cout << "Indice: " << indice << endl;
+    recup = recupere(&tableau, indice);
+    if(recup == -1)
+        cout << "Oups vous utilisez un indice qui est trop grand/petit pour le tableau" << endl;
+    else if(recup == -2)
+        cout << "Oups vous utilisez un indice dont la case du tableau n'est pas encore remplis" << endl;
+    else
+        cout << "Element indice " << indice << " du tableau: " << recup << std::endl;
+
+    cout << "\nJe vais chercher un élément dans le tableau: " << endl;
+    indice = 2;
+    cout << "Indice: " << indice << endl;
+    recup = recupere(&tableau, indice);
+    if(recup == -1)
+        cout << "Oups vous utilisez un indice qui est trop grand/petit pour le tableau" << endl;
+    else if(recup == -2)
+        cout << "Oups vous utilisez un indice dont la case du tableau n'est pas encore remplis" << endl;
+    else
+        cout << "Element indice " << indice << " de la liste: " << recup << std::endl;
+
+
+    cout << "\nJ'ajoute sans dépasser la capacité du tableau." << endl;
     cout << "Capacité tableau avant: " << getCapacite(&tableau) << endl;
     for (int i=1; i<=2; i++) 
     {
