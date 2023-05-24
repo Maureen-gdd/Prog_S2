@@ -271,6 +271,7 @@ void pousse_file(DynaTableau* tableau, int valeur)
     tableau->nb_elem++;
 }
 
+// retire à la fin
 int retire_file(DynaTableau* tableau)
 {
     // Tableau vide
@@ -294,13 +295,41 @@ int retire_file(DynaTableau* tableau)
     }
 }
 
-//void pousse_pile(DynaTableau* liste, int valeur)
-void pousse_pile(Liste* liste, int valeur)
+// ajoute à la fin
+void pousse_pile(DynaTableau* tableau, int valeur)
 {
+    // si le tableau est vide
+    if(tableau->nb_elem == 0)
+    {
+        tableau->donnees[0] = valeur;
+        tableau->nb_elem++;
+    }
+    else
+    {
+        // il faut agrandir la capacité
+        if(tableau->nb_elem >= tableau->capacite)
+        {
+            ajoute(tableau, valeur);
+        }
+        // pas besoin d'agrandir la capacite
+        else
+        {
+            int* newTableau = new int[tableau->capacite];
+            newTableau[tableau->nb_elem] = valeur;
 
+            for (size_t i = 0; i < tableau->nb_elem; i++)
+            {
+                newTableau[i] = tableau->donnees[i];
+            }
+
+            delete[] tableau->donnees;
+            tableau->donnees = newTableau;
+            tableau->nb_elem++;
+        }
+    }
 }
 
-//int retire_pile(DynaTableau* liste)
+//int 
 int retire_pile(Liste* liste)
 {
     return 0;
@@ -505,7 +534,26 @@ int main()
         cout << "\nLa valeau enlevée est " << recup << endl;
         affiche(&tableau3);
     }
-     
+
+    cout << "\nF O N C T I O N   P O U S S E   P I L E" << endl;
+    DynaTableau tableau4;
+    initialise(&tableau4, 2);
+    affiche(&tableau4);
+
+    cout << "\nJ'utilise pousse_pile sur un tableau vide" << endl;
+    pousse_pile(&tableau4, 66);
+    cout << "Capacite: " << getCapacite(&tableau4) << endl;
+    affiche(&tableau4);
+
+    cout << "\nJ'utilise pousse_pile sur un tableau pas entièrement rempli" << endl;
+    pousse_pile(&tableau4, 54);
+    cout << "Capacite: " << getCapacite(&tableau4) << endl;
+    affiche(&tableau4);
+
+    cout << "\nJ'utilise pousse_pile sur un tableau entièrement rempli" << endl;
+    pousse_pile(&tableau4, 21);
+    cout << "Capacite: " << getCapacite(&tableau4) << endl;
+    affiche(&tableau4);
 
 
 
