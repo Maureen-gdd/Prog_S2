@@ -271,10 +271,27 @@ void pousse_file(DynaTableau* tableau, int valeur)
     tableau->nb_elem++;
 }
 
-//int retire_file(Liste* liste)
-int retire_file(Liste* liste)
+int retire_file(DynaTableau* tableau)
 {
-    return 0;
+    // Tableau vide
+    if(tableau->nb_elem == 0)
+        return -1;
+    else
+    {
+        int* newTableau = new int[tableau->capacite-1];
+        int valeur = tableau->donnees[0];
+
+        for(size_t i = 1; i < tableau->nb_elem; i++)
+        {
+            newTableau[i-1] = tableau->donnees[i];
+        }
+
+        delete[] tableau->donnees;
+        tableau->donnees = newTableau;
+        tableau->nb_elem -= 1;
+
+        return valeur;
+    }
 }
 
 //void pousse_pile(DynaTableau* liste, int valeur)
@@ -460,6 +477,35 @@ int main()
     cout << "Capacite: " << getCapacite(&tableau2) << endl;
     affiche(&tableau2);
 
+    cout << "\nF O N C T I O N   R E T I R E   F I L E" << endl;
+    DynaTableau tableau3;
+    initialise(&tableau3, 3);
+    affiche(&tableau3);
+    cout << "\nJ'utilise retire_file sur un tableau vide" << endl;
+    recup = retire_file(&tableau3);
+    if(recup == -1)
+         cout << "Votre tableau est vide, il n'y a rien à retirer" << endl;
+     else
+     {
+        cout << "La valeau enlevée est " << recup << endl;
+        affiche(&tableau3);
+     }
+
+    cout << "\nJ'utilise retire_file sur un tableau rempli" << endl;
+    for(size_t i = 1; i <= 3; i++)
+    {
+        ajoute(&tableau3, i*5);
+    }
+    affiche(&tableau3);
+    recup = retire_file(&tableau3);
+    if(recup == -1)
+         cout << "\nVotre tableau est vide, il n'y a rien à retirer" << endl;
+    else
+    {
+        cout << "\nLa valeau enlevée est " << recup << endl;
+        affiche(&tableau3);
+    }
+     
 
 
 
