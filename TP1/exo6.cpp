@@ -203,6 +203,12 @@ int recupere(const DynaTableau* tableau, int n)
 
 int cherche(const DynaTableau* tableau, int valeur)
 {
+    for(size_t i = 0; i < tableau->nb_elem; i++)
+    {
+        if(tableau->donnees[i] == valeur)
+            return i;
+    }
+
     return -1;
 }
 
@@ -302,7 +308,8 @@ int main()
 
     /*** ********* TEST FONCTIONS TABLEAU DYNAMIQUE ********* ***/
     cout << "\nT E S T   T A B L E A U   D Y N A" << endl;
-    cout << "\nJe vais chercher un élément en dehors de la capacité du tableau: " << endl;
+    cout << "\nF O N C T I O N   R E C U P E R E" << endl;
+    cout << "Je vais chercher un élément en dehors de la capacité du tableau: " << endl;
     int indice = 10;
     cout << "Indice: " << indice << endl;
     recup = recupere(&tableau, indice);
@@ -335,8 +342,8 @@ int main()
     else
         cout << "Element indice " << indice << " de la liste: " << recup << std::endl;
 
-
-    cout << "\nJ'ajoute sans dépasser la capacité du tableau." << endl;
+    cout << "\nF O N C T I O N   A J O U T E" << endl;
+    cout << "J'ajoute sans dépasser la capacité du tableau." << endl;
     cout << "Capacité tableau avant: " << getCapacite(&tableau) << endl;
     for (int i=1; i<=2; i++) 
     {
@@ -353,6 +360,23 @@ int main()
     }
     cout << "Capacité tableau après: " << getCapacite(&tableau) << endl;
     affiche(&tableau);
+
+    cout << "\nF O N C T I O N   C H E R C H E" << endl;
+    int nombre = 21;
+    cout << "Je cherche un nombre qui ne se trouve pas dans le tableau" << endl;
+    recup = cherche(&tableau, nombre);
+    if(indice != -1)
+        cout << "Le nombre " << nombre << " se trouve à la case " << recup << endl;
+    else
+        cout << "Le nombre " << nombre << " ne se trouve pas dans le tableau" << endl;
+
+    nombre = 8;
+    cout << "\nJe cherche un nombre qui se trouve dans le tableau" << endl;
+    indice = cherche(&tableau, nombre);
+    if(indice != -1)
+        cout << "Le nombre " << nombre << " se trouve à la case " << indice << endl;
+    else
+        cout << "Le nombre " << nombre << " ne se trouve pas dans le tableau" << endl;
 
 
     /*std::cout << "15 se trouve dans la liste à " << cherche(&tableau, 15) << std::endl;
