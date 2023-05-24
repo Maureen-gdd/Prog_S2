@@ -4,6 +4,8 @@ using namespace std;
 #define INDICE 4
 #define VALEUR 49
 
+#FINISHED
+
 struct Noeud
 {
     int donnee;
