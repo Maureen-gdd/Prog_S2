@@ -212,9 +212,13 @@ int cherche(const DynaTableau* tableau, int valeur)
     return -1;
 }
 
-void stocke(DynaTableau* tableau, int n, int valeur)
+int stocke(DynaTableau* tableau, int n, int valeur)
 {
+    if(n >= tableau->capacite || n < 0)
+        return -1;
 
+    tableau->donnees[n] = valeur;
+    return 1;
 }
 
 int getCapacite(DynaTableau* tableau)
@@ -377,6 +381,26 @@ int main()
         cout << "Le nombre " << nombre << " se trouve à la case " << indice << endl;
     else
         cout << "Le nombre " << nombre << " ne se trouve pas dans le tableau" << endl;
+
+    cout << "\nF O N C T I O N   S T O C K E" << endl;
+    nombre = 169;
+    indice = 66;
+    cout << "Je stocke un nombre avec un mauvais indice:" << endl;
+    cout << "Indice: " << indice << endl;
+    recup = stocke(&tableau, indice, nombre);
+    if(recup == -1)
+        cout << "L'indice où vous voulez stocker votre valeur est trop petit/grand pour le tableau" << endl;
+    else
+        affiche(&tableau);
+
+    indice = 5;
+    cout << "\nJe stocke un nombre avec un bon indice:" << endl;
+    cout << "Indice: " << indice << endl;
+    recup = stocke(&tableau, indice, nombre);
+    if(recup == -1)
+        cout << "L'indice où vous voulez stocker votre valeur est trop petit/grand pour le tableau" << endl;
+    else
+        affiche(&tableau);
 
 
     /*std::cout << "15 se trouve dans la liste à " << cherche(&tableau, 15) << std::endl;
