@@ -108,7 +108,12 @@ struct Map
      */
     void insert(string key, int value)
     {
+        MapNode* newNode = new MapNode(key, value);
 
+        if (root == nullptr)
+            root = newNode;
+        else
+            root->insertNode(newNode);
     }
 
     /**
@@ -118,12 +123,11 @@ struct Map
      */
     int get(string key)
     {
-        MapNode* currentRoot = this->root;
+        MapNode* currentRoot = root;
 
-        while(currentRoot && currentRoot->key != key)
+        while (currentRoot && currentRoot->key != key)
         {
-            // choose the left or right child to continue
-            if(hash(key) < currentRoot->key_hash)
+            if (hash(key) < currentRoot->key_hash)
             {
                 currentRoot = currentRoot->left;
             }
@@ -133,7 +137,7 @@ struct Map
             }
         }
 
-        if(currentRoot->key == key)
+        if (currentRoot && currentRoot->key == key)
         {
             return currentRoot->value;
         }
