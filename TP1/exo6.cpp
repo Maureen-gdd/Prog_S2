@@ -4,8 +4,6 @@ using namespace std;
 #define INDICE 4
 #define VALEUR 49
 
-#FINISHED
-
 struct Noeud
 {
     int donnee;
@@ -281,17 +279,14 @@ int retire_file(DynaTableau* tableau)
         return -1;
     else
     {
-        int* newTableau = new int[tableau->capacite-1];
         int valeur = tableau->donnees[0];
 
-        for(size_t i = 1; i < tableau->nb_elem; i++)
+        for (int i = 0; i < tableau->nb_elem - 1; i++)
         {
-            newTableau[i-1] = tableau->donnees[i];
+            tableau->donnees[i] = tableau->donnees[i + 1];
         }
 
-        delete[] tableau->donnees;
-        tableau->donnees = newTableau;
-        tableau->nb_elem -= 1;
+        tableau->nb_elem--;
 
         return valeur;
     }
