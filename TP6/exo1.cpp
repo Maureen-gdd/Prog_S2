@@ -74,13 +74,28 @@ void Graph::wideTravel(GraphNode *first, GraphNode *nodes[], int &nodesSize, boo
 	}
 }
 
+/**
+ * Detect if there is cycle when starting from first
+ * (the first may not be in the cycle)
+ * Think about what's happen when you get an already visited node
+	**/
 bool Graph::detectCycle(GraphNode *first, bool visited[])
 {
-	/**
-	  Detect if there is cycle when starting from first
-	  (the first may not be in the cycle)
-	  Think about what's happen when you get an already visited node
-	**/
+	visited[first->value] = true;
+
+	for (Edge *currentEdge = first->edges; currentEdge != NULL; currentEdge = currentEdge->next)
+	{
+		GraphNode *destination = currentEdge->destination;
+
+		if (!visited[destination->value])
+		{
+			if (detectCycle(destination, visited))
+				return true;
+		}
+		else
+			return true;
+	}
+	
     return false;
 }
 
