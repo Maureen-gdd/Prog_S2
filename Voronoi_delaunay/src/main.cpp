@@ -30,10 +30,16 @@ struct Triangle
   bool complet = false;
 };
 
-struct GodHaveMercy
+// God Have Mercy please work
+struct GHM
 {
   Triangle t;
   Coords center;
+};
+
+struct Color
+{
+  Uint8 r, g, b, a;
 };
 
 struct Vertex
@@ -54,8 +60,9 @@ struct Application
 
   std::vector<Coords> points;
   std::vector<Triangle> triangles;
-  std::vector<GodHaveMercy> snif;
+  std::vector<GHM> snif;
   std::vector<std::vector<Coords>> polygons;
+  std::vector<Color> colors;
 };
 
 // changement => trie par x
@@ -187,62 +194,43 @@ void drawCenterCircles(SDL_Renderer *renderer,
   }
 }
 
-/*void drawPolygons(SDL_Renderer* renderer, const std::vector<std::vector<Coords>>& polygons)
-{
-  // Couleur des polygones
-  SDL_Color color = {255, 0, 0, 255}; // Rouge
-
-  // Dessin des polygones
-  for (const std::vector<Coords>& polygon : polygons)
-  {
-    // Conversion des coordonnées en tableaux SDL_gfx
-    std::vector<Sint16> xPoints(polygon.size());
-    std::vector<Sint16> yPoints(polygon.size());
-
-    for (std::size_t i = 0; i < polygon.size(); i++)
-    {
-      xPoints[i] = static_cast<Sint16>(polygon[i].x);
-      yPoints[i] = static_cast<Sint16>(polygon[i].y);
-    }
-
-    // Dessin du polygone
-    polygonRGBA(renderer, xPoints.data(), yPoints.data(), polygon.size(),
-                color.r, color.g, color.b, color.a);
-  }
-}*/
-
-void drawPolygons(SDL_Renderer* renderer, const std::vector<std::vector<Coords>>& polygons)
+void randomColors(std::vector<Color>& colors)
 {
   // Générateur de nombres aléatoires pour les couleurs
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<int> dis(0, 255);
 
-  // Dessin des polygones
-  for (const std::vector<Coords>& polygon : polygons)
-  {
     // Génération d'une couleur aléatoire
     Uint8 r = dis(gen);
     Uint8 g = dis(gen);
     Uint8 b = dis(gen);
     Uint8 a = 255; // Opacité maximale
 
-    // Conversion des coordonnées en tableaux SDL_gfx
+    colors.push_back({r, g, b, a});
+}
+
+void drawPolygons(SDL_Renderer* renderer, const std::vector<std::vector<Coords>>& polygons, const std::vector<Color>& colors)
+{
+
+  for (std::size_t i = 0; i < polygons.size(); i++)
+  {
+    const std::vector<Coords>& polygon = polygons[i];
+
     std::vector<Sint16> xPoints(polygon.size());
     std::vector<Sint16> yPoints(polygon.size());
 
-    for (std::size_t i = 0; i < polygon.size(); i++)
+    for (std::size_t j = 0; j < polygon.size(); j++)
     {
-      xPoints[i] = static_cast<Sint16>(polygon[i].x);
-      yPoints[i] = static_cast<Sint16>(polygon[i].y);
+      xPoints[j] = static_cast<Sint16>(polygon[j].x);
+      yPoints[j] = static_cast<Sint16>(polygon[j].y);
     }
 
-    // Dessin du polygone rempli avec la couleur aléatoire
+    // Dessin du polygone rempli avec la couleur sélectionnée
     filledPolygonRGBA(renderer, xPoints.data(), yPoints.data(), polygon.size(),
-                      r, g, b, a);
+                      colors[i].r, colors[i].g, colors[i].b, colors[i].a);
   }
 }
-
 /* ********** D  R  A  W  ********** */
 
 void draw(SDL_Renderer *renderer, const Application &app) 
@@ -259,7 +247,7 @@ void draw(SDL_Renderer *renderer, const Application &app)
   drawCircles(renderer, app.triangles);
   drawCenterCircles(renderer, app.triangles);
   // Dessinez les polygones
-  drawPolygons(renderer, app.polygons);
+  drawPolygons(renderer, app.polygons, app.colors);
 }
 
 /* ICI - ESPACE TRAVAIL*/
@@ -377,7 +365,7 @@ void construitVoronoi(Application &app)
     const Triangle &t = app.triangles[i];
     CircumCircle(t.p1.x, t.p1.y, t.p1.x, t.p1.y, t.p2.x, t.p2.y, t.p3.x, t.p3.y,
                    &xC, &yC, &rC);
-    //if((xC >= 0 && xC <=720) && (yC >= 0 && yC <= 720))
+    if((xC >= 0 && xC <=720) && (yC >= 0 && yC <= 720))
       app.snif.push_back({t, {xC, yC}});
   }
 
@@ -392,7 +380,7 @@ void construitVoronoi(Application &app)
     // on parcourt chaque snif pour voir les triangles qui ont un point commun avec ce point
     for (auto j = app.snif.begin(); j < app.snif.end(); j++) 
     {
-      GodHaveMercy _snif = *j;
+      GHM _snif = *j;
       // Si un des points du triangle est le même que le point qu'on parcoure
       if(_pt == _snif.t.p1 || _pt == _snif.t.p2 || _pt == _snif.t.p3)
       {
@@ -444,6 +432,7 @@ void construitVoronoi(Application &app)
       }
 
       app.polygons.push_back(verifPolygon);
+      randomColors(app.colors);
     }
   }
 
